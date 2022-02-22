@@ -1,17 +1,27 @@
 const db = require('../../data/db-config');
 
 // Models
-function getById(id) {
+function get() {
+	return db('users');
+};
 
-}
+function getById(user_id) {
+	return db('users').where({ user_id }).first();
+};
 
-function update(id, payload) {
+function getWithFilter(filter) {
+	return db('users').where(filter);
+};
 
-}
+async function create(user) {
+	const sentUser = await db('users').insert(user);
+	return getById(sentUser.user_id);
+};
 
 // Exports
 module.exports = {
+	get,
 	getById,
-	create,
-	update
+	getWithFilter,
+	create
 };

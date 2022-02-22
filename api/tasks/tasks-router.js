@@ -1,7 +1,6 @@
 // Imports
-const express = require('express');
+const router = require('express').Router();
 const tasks = require('./tasks-model');
-const router = express.Router();
 
 // Endpoints
 router.get('/', (req, res, next) => {
