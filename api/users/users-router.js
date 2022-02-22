@@ -1,10 +1,10 @@
 // Imports
-const express = require('express');
+const router = require('express').Router();
 const users = require('./users-model');
-const router = express.Router();
+const { restricted } = require('../auth/auth-router');
 
 // Endpoints
-router.get('/:id', (req, res, next) => {
+router.get('/:id', restricted, (req, res, next) => {
 	users.getById(req.params.id)
 		.then(user => {
 			res.json(user);
@@ -12,7 +12,7 @@ router.get('/:id', (req, res, next) => {
 		.catch(next);
 })
 
-router.put('/:id', (req, res, next) => {
+router.put('/:id', restricted, (req, res, next) => {
 	users.update(req.params.id, req.body)
 		.then(user => {
 			res.json(user);
