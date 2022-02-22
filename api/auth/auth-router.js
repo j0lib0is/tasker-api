@@ -45,4 +45,4 @@ router.get('/logout', (req, res, next) => {
 });
 
 // Exports
-module.exports = server;
+module.exports = router;
