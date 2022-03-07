@@ -1,6 +1,8 @@
 // Imports
 const router = require('express').Router();
 const bcrypt = require('bcryptjs');
+const jwt = require('jsonwebtoken');
+const { JWT_SECRET } = require('../secrets/index');
 const users = require('../users/users-model');
 const { checkUserExists, validateEmail } = require('./auth-middleware');
 
@@ -18,12 +20,22 @@ router.post('/register', validateEmail, (req, res, next) => {
 });
 
 // Login
+const generateToken = (user) => {
+	const payload = {
+		subject: user.user_id,
+		email: user.email,
+		password: user.password
+	};
+
+	return jwt.sign(payload, JWT_SECRET, { expiresIn: '1d' });
+};
+
 router.post('/login', checkUserExists, (req, res, next) => {
 	const { password } = req.body;
 
 	if (bcrypt.compareSync(password, req.user.password)) {
-		req.session.user = req.user;
-		res.json({ message: 'Welcome back!' });
+		const token = generateToken(req.user);
+		res.json({ message: 'Welcome back!', token });
 	} else {
 		res.status(401).json({ message: 'Invalid credentials.' })
 	}

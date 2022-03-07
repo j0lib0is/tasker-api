@@ -18,10 +18,17 @@ async function create(list) {
 	return getById(sentList.list_id);
 };
 
+async function remove(list_id) {
+	const list = await getById(list_id);
+	await db('lists').where({ list_id }).del();
+	return list;
+}
+
 // Exports
 module.exports = {
 	get,
 	getById,
 	getWithFilter,
-	create
+	create,
+	remove
 };
