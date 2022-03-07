@@ -27,13 +27,21 @@ router.post('/', (req, res, next) => {
 		.catch(next);
 })
 
-router.put('/:id', (req, res, next) => {
-	tasks.update(req.params.id, req.body)
+router.delete('/:id', (req, res, next) => {
+	tasks.remove(req.params.id)
 		.then(task => {
 			res.json(task);
 		})
 		.catch(next);
 })
+
+// router.put('/:id', (req, res, next) => {
+// 	tasks.update(req.params.id, req.body)
+// 		.then(task => {
+// 			res.json(task);
+// 		})
+// 		.catch(next);
+// })
 
 // Exports
 module.exports = router;

@@ -18,10 +18,17 @@ async function create(task) {
 	return getById(sentTask.task_id);
 };
 
+async function remove(task_id) {
+	const task = await getById(task_id);
+	await db('tasks').where({ task_id }).del();
+	return task;
+};
+
 // Exports
 module.exports = {
 	get,
 	getById,
 	getWithFilter,
-	create
+	create,
+	remove
 };
